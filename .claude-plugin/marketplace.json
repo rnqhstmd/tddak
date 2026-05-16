@@ -1,0 +1,17 @@
+{
+  "name": "tddak",
+  "owner": {
+    "name": "rnqhstmd"
+  },
+  "metadata": {
+    "description": "TDD 강제 개발 파이프라인 플러그인"
+  },
+  "plugins": [
+    {
+      "name": "tddak",
+      "source": "./",
+      "description": "TDD 강제 개발 파이프라인 플러그인. RED-GREEN-REFACTOR 사이클 + verify 게이트를 통해 PRD부터 PR까지 자동화합니다.",
+      "version": "1.0.0"
+    }
+  ]
+}

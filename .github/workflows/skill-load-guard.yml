@@ -1,0 +1,41 @@
+name: Skill Load Guard
+
+on:
+  pull_request:
+    paths:
+      - '.claude/skills/**/SKILL.md'
+      - '.claude/skills/**/phases/*.md'
+      - 'agents/*.md'
+      - '.claude/hooks/skill-load-guard.sh'
+
+  push:
+    branches: [main]
+    paths:
+      - '.claude/skills/**/SKILL.md'
+      - '.claude/skills/**/phases/*.md'
+      - 'agents/*.md'
+
+jobs:
+  validate-identity-markers:
+    name: 3중 식별 메커니즘 검증
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Make hook executable
+        run: chmod +x .claude/hooks/skill-load-guard.sh
+
+      - name: Run skill-load-guard (strict mode)
+        env:
+          CLAUDE_PLUGIN_ROOT: ${{ github.workspace }}
+        run: bash .claude/hooks/skill-load-guard.sh --strict
+
+      - name: Failure guidance
+        if: failure()
+        run: |
+          echo "::error::식별 마커 위반 발견. .claude/rules/identity.md 참조하여 수정하세요."
+          echo "::error::검증 항목:"
+          echo "::error::① description 필드 [tddak/TDD 강제] 접두사 (충돌 스킬)"
+          echo "::error::② SKILL.md 본문 헤더 # tddak:{skill-name}"
+          echo "::error::③ Skill() 호출 fully-qualified (tddak: 접두사)"

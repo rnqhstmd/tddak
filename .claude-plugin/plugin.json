@@ -1,0 +1,25 @@
+{
+  "name": "tddak",
+  "description": "TDD 강제 개발 파이프라인 플러그인. RED-GREEN-REFACTOR 사이클 + verify 게이트를 통해 PRD부터 PR까지 자동화합니다.",
+  "version": "1.0.0",
+  "author": {
+    "name": "rnqhstmd"
+  },
+  "homepage": "https://github.com/rnqhstmd/tddak",
+  "repository": "https://github.com/rnqhstmd/tddak",
+  "keywords": ["tdd", "red-green-refactor", "korean", "dev-workflow", "test-first", "iron-law", "verify-gate"],
+  "skills": "./.claude/skills/",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/.claude/hooks/pre-tool-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
